@@ -5,5 +5,4 @@ chrome.runtime.onInstalled.addListener(async () => {
   const emojiList = Object.values(jsonData).flat();
   console.log(emojiList);
   chrome.storage.local.set({ emojiList });
-  // console.log('Default background color set to %cgreen', `color :${color}`);
 });

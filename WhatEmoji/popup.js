@@ -1,48 +1,23 @@
 const emojiInput = document.getElementById('emojiInput');
 const searchResult = document.getElementById('searchResult');
+const copyResult = document.getElementById('copyResult');
 
 emojiInput.addEventListener('input', async (e) => {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    function: setResult,
-    args: [e.target.value, searchResult],
-  });
-});
-
-function setResult(value, targetDOM) {
   chrome.storage.local.get('emojiList', ({ emojiList }) => {
     let result = '';
 
     emojiList.forEach((info) => {
-      if (info.keywords.includes(value)) {
-        result += info.emoji;
+      if (info.description.includes(e.target.value) || info.keywords.includes(e.target.value)) {
+        result += `<button>${info.emoji}</button>`;
       }
     });
 
-    console.log(result);
-
-    // const resultDOM = document.getElementById('searchResult');
-    targetDOM.innerText = result;
+    searchResult.innerHTML = result;
+    document.querySelectorAll('button').forEach((button) => {
+      button.addEventListener('click', (e) => {
+        navigator.clipboard.writeText(e.target.textContent);
+        copyResult.innerText = `${e.target.textContent} is Copied To Clipboard`;
+      });
+    });
   });
-}
-
-// chrome.storage.sync.get('person', ({ person }) => {
-//   emojiResult.innerHTML = person;
-// });
-
-// changeColor.addEventListener('click', async () => {
-//   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-//   chrome.scripting.executeScript({
-//     target: { tabId: tab.id },
-//     function: setPageBackgroundColor,
-//   });
-// });
-
-// function setPageBackgroundColor() {
-//   chrome.storage.sync.get('color', ({ color }) => {
-//     document.body.style.backgroundColor = color;
-//   });
-// }
+});
