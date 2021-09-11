@@ -1,15 +1,36 @@
-let changeColor = document.getElementById('changeColor');
-let inputEmoji = document.getElementById('typeEmoji');
-let searchEmoji = document.getElementById('searchEmoji');
-let emojiResult = document.getElementById('emojiResult');
+const emojiInput = document.getElementById('emojiInput');
+const searchResult = document.getElementById('searchResult');
 
-// chrome.storage.sync.get('color', ({ color }) => {
-//   changeColor.style.backgroundColor = color;
-// });
+emojiInput.addEventListener('input', async (e) => {
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-chrome.storage.sync.get('person', ({ person }) => {
-  emojiResult.innerHTML = person;
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    function: setResult,
+    args: [e.target.value, searchResult],
+  });
 });
+
+function setResult(value, targetDOM) {
+  chrome.storage.local.get('emojiList', ({ emojiList }) => {
+    let result = '';
+
+    emojiList.forEach((info) => {
+      if (info.keywords.includes(value)) {
+        result += info.emoji;
+      }
+    });
+
+    console.log(result);
+
+    // const resultDOM = document.getElementById('searchResult');
+    targetDOM.innerText = result;
+  });
+}
+
+// chrome.storage.sync.get('person', ({ person }) => {
+//   emojiResult.innerHTML = person;
+// });
 
 // changeColor.addEventListener('click', async () => {
 //   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });

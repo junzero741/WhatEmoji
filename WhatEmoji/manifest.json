@@ -6,6 +6,10 @@
   "background": {
     "service_worker" : "background.js"
   },
+  "web_accessible_resources": [{
+    "resources": ["data/emojiList.json"],
+    "matches": ["<all_urls>"]
+    }],
   "permissions": ["storage", "activeTab", "scripting"],
   "action" : {
     "default_popup" : "popup.html",
