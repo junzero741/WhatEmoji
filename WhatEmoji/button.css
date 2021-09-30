@@ -1,6 +1,11 @@
 button {
-  font-size: 16px;
-  border-radius: 2px;
+  width: 2em;
+  height : 1.5em;
+  font-size: 18px;
+  border-radius: 15px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button.current {

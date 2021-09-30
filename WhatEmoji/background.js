@@ -3,6 +3,5 @@ chrome.runtime.onInstalled.addListener(async () => {
   const rawData = await fetch(dataURL);
   const jsonData = await rawData.json();
   const emojiList = Object.values(jsonData).flat();
-  console.log(emojiList);
   chrome.storage.local.set({ emojiList });
 });

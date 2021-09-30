@@ -1,7 +1,7 @@
 {
   "name": "WhatEmoji",
   "description": "get emoji for every word",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 3,
   "background": {
     "service_worker" : "background.js"
@@ -10,7 +10,7 @@
     "resources": ["data/emojiList.json"],
     "matches": ["<all_urls>"]
     }],
-  "permissions": ["storage", "activeTab", "scripting"],
+  "permissions": ["storage"],
   "action" : {
     "default_popup" : "popup.html",
     "default_icon": {
